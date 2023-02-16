@@ -1,0 +1,16 @@
+services:
+  api:
+    build: ./energyProject
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./energyProject:/energyProject
+    command: bash -c "python manage.py runserver 0.0.0.0:8000"
+
+  web:
+    build: ./energyproject-ui
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./energyproject-ui:/energyproject-ui
+
