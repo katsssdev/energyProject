@@ -1,0 +1,8 @@
+node_modues/
+node_modules
+venv
+db.sqlite3
+*.log
+*.pot
+*.pyc
+__pycache__/
