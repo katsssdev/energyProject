@@ -1,3 +1,5 @@
+import random
+
 from django.http import JsonResponse
 import datetime
 
@@ -7,7 +9,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from wind.models import Project, WTG
+from wind.models import Project, WTG, Company
 from wind.serializers import ProjectSerializer
 
 
@@ -25,12 +27,21 @@ class ProjectsView(APIView):
         return JsonResponse(list(projects), safe=False)
 
     def post(self, request):
-        serializer = ProjectSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(status=status.HTTP_201_CREATED)
+        data = request.data
+        try:
+            company = Company.objects.get(id=int(data.get('company_id')))
+        except:
+            return Response(data={"message": "No company found with given id"}, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            Project.objects.create(id=random.randint(50, 9999), company=company, project_number=int(data.get('project_number')),
+                                   project_name=data.get('project_name'), number_3l_code=data.get('number_3l_code'),
+                                   project_deal_type_id=data.get('project_deal_type_id'),
+                                   project_group_id=data.get('project_group_id'),
+                                   project_status_id=data.get('project_status_id'))
 
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response(status=status.HTTP_201_CREATED)
+        except Exception as e:
+            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 class ProjectsViewUpdateDelete(APIView):

@@ -7,28 +7,22 @@ import { API_URL } from "../constants";
 
 class NewProjectForm extends React.Component {
     state = {
-        id: 0,
+        id: null,
         project_name: "",
         project_number: null,
-        acquisition_date: null,
         number_3l_code: "",
         project_deal_type_id: "",
         project_group_id: "",
         project_status_id: "",
         company_id: null,
-        WTG_numbers: "",
-        total_kW: null,
-        months_acquired: null
     };
 
     componentDidMount() {
         if (this.props.project) {
-            const { id, project_name, project_number, acquisition_date, number_3l_code, project_deal_type_id,
-                project_group_id, project_status_id, company_id,
-                WTG_numbers, total_kW, months_acquired } = this.props.project;
-            this.setState({ id, project_name, project_number, acquisition_date, number_3l_code, project_deal_type_id,
-                project_group_id, project_status_id, company_id,
-                WTG_numbers, total_kW, months_acquired });
+            const { id, project_name, project_number, number_3l_code, project_deal_type_id,
+                project_group_id, project_status_id, company_id } = this.props.project;
+            this.setState({ id, project_name, project_number, number_3l_code, project_deal_type_id,
+                project_group_id, project_status_id, company_id});
         }
     }
 
@@ -60,7 +54,7 @@ class NewProjectForm extends React.Component {
         return (
             <Form onSubmit={this.props.project ? this.editproject : this.createproject}>
                 <FormGroup>
-                    <Label for="name">Project Name:</Label>
+                    <Label for="project_name">Project Name:</Label>
                     <Input
                         type="text"
                         name="project_name"
@@ -69,12 +63,21 @@ class NewProjectForm extends React.Component {
                     />
                 </FormGroup>
                 <FormGroup>
-                    <Label for="email">Project Number:</Label>
+                    <Label for="project_number">Project Number:</Label>
                     <Input
                         type="number"
                         name="project_number"
                         onChange={this.onChange}
                         value={this.defaultIfEmpty(this.state.project_number)}
+                    />
+                </FormGroup>
+                <FormGroup>
+                    <Label for="number_3l_code">Number 3l Code:</Label>
+                    <Input
+                        type="text"
+                        name="number_3l_code"
+                        onChange={this.onChange}
+                        value={this.defaultIfEmpty(this.state.number_3l_code)}
                     />
                 </FormGroup>
                 <FormGroup>
@@ -105,7 +108,7 @@ class NewProjectForm extends React.Component {
                     />
                 </FormGroup>
                 <FormGroup>
-                    <Label for="Company ID">Project Status ID:</Label>
+                    <Label for="company_id">Company ID:</Label>
                     <Input
                         type="number"
                         name="company_id"
